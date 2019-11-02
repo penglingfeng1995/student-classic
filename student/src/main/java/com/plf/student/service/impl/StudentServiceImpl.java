@@ -15,4 +15,24 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> selectStudentList() {
         return studentDao.selectStudentList();
     }
+
+    @Override
+    public Student selectStudentById(Long id) {
+        return studentDao.selectStudentById(id);
+    }
+
+    @Override
+    public int addStudent(Student student) {
+        return studentDao.addStudent(student);
+    }
+
+    @Override
+    public int deleteStudentById(Long id) {
+        return studentDao.deleteStudentById(id);
+    }
+
+    @Override
+    public int updateStudent(Student student) {
+        return studentDao.updateStudent(student);
+    }
 }

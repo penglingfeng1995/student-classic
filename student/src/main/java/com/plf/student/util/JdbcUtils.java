@@ -5,6 +5,7 @@ import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
@@ -33,7 +34,7 @@ public class JdbcUtils {
         queryRunner = new QueryRunner(dataSource);
     }
 
-    public static <T> List<T> queryObject(String sql, Class<T> clazz, Object... params) {
+    public static <T> List<T> queryObjectList(String sql, Class<T> clazz, Object... params) {
         BeanListHandler<T> handler = new BeanListHandler<>(clazz);
         try {
             return queryRunner.query(sql, handler, params);
@@ -41,5 +42,24 @@ public class JdbcUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static <T> T queryObject(String sql, Class<T> clazz, Object... params) {
+        BeanHandler<T> handler = new BeanHandler<>(clazz);
+        try {
+            return queryRunner.query(sql, handler, params);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static int execute(String sql,Object... params){
+        try {
+            return queryRunner.execute(sql, params);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
